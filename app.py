@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 
 app = Flask(__name__)
 
@@ -10,24 +10,43 @@ def acasa():
 
 @app.route("/despre")
 def despre():
-    return """
-    Ma numesc Ion Sobraneschi.
 
+    nume = "Ion Sobraneschi"
+
+    mesaj = """
     Sunt in curs de a deveni Python Developer si Data Analyst.
-
     Invat programare, analiza de date si dezvoltare web.
     """
+
+    tehnologii = [
+        "Python",
+        "Flask",
+        "HTML",
+        "CSS",
+        "JavaScript"
+    ]
+
+    return render_template(
+        "despre.html",
+        nume=nume,
+        mesaj=mesaj,
+        tehnologii=tehnologii
+    )
 
 
 @app.route("/proiecte")
 def proiecte():
-    return """
-    Proiectele mele:
 
-    - Primul-proiect
-    - primul-website
-    - Sales-Business-Intelligence
-    """
+    lista_proiecte = [
+        "Primul-proiect",
+        "primul-website",
+        "Sales-Business-Intelligence"
+    ]
+
+    return render_template(
+        "proiecte.html",
+        proiecte=lista_proiecte
+    )
 
 
 @app.route("/salut/<nume>")

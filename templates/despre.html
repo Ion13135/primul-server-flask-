@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ro">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Despre mine</title>
+</head>
+
+<body>
+
+    <h1>{{ nume }}</h1>
+
+    <p>{{ mesaj }}</p>
+
+    <h2>Tehnologii</h2>
+
+    <ul>
+        {% for tehnologie in tehnologii %}
+            <li>{{ tehnologie }}</li>
+        {% endfor %}
+    </ul>
+
+</body>
+
+</html>
