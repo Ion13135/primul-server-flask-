@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
@@ -47,6 +47,27 @@ def proiecte():
         "proiecte.html",
         proiecte=lista_proiecte
     )
+
+
+@app.route("/contact", methods=["GET", "POST"])
+def contact():
+
+    if request.method == "POST":
+
+        nume = request.form.get("nume")
+        email = request.form.get("email")
+        mesaj = request.form.get("mesaj")
+
+        print(
+            f"Mesaj primit de la {nume} ({email}): {mesaj}"
+        )
+
+        return render_template(
+            "contact_succes.html",
+            nume=nume
+        )
+
+    return render_template("contact.html")
 
 
 @app.route("/salut/<nume>")

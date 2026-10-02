@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block titlu %}
+Contact
+{% endblock %}
+
+{% block continut %}
+
+<h1>Contacteaza-ma</h1>
+
+<form action="/contact" method="POST">
+
+    <div>
+        <label for="nume">Nume:</label>
+        <input
+            type="text"
+            id="nume"
+            name="nume"
+            required>
+    </div>
+
+    <br>
+
+    <div>
+        <label for="email">Email:</label>
+        <input
+            type="email"
+            id="email"
+            name="email"
+            required>
+    </div>
+
+    <br>
+
+    <div>
+        <label for="mesaj">Mesaj:</label>
+        <br>
+        <textarea
+            id="mesaj"
+            name="mesaj"
+            required>
+        </textarea>
+    </div>
+
+    <br>
+
+    <button type="submit">
+        Trimite
+    </button>
+
+</form>
+
+{% endblock %}
