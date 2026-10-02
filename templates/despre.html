@@ -1,25 +1,21 @@
-<!DOCTYPE html>
-<html lang="ro">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Despre mine</title>
-</head>
+{% block titlu %}
+Despre mine
+{% endblock %}
 
-<body>
+{% block continut %}
 
-    <h1>{{ nume }}</h1>
+<h1>{{ nume }}</h1>
 
-    <p>{{ mesaj }}</p>
+<p>{{ mesaj }}</p>
 
-    <h2>Tehnologii</h2>
+<h2>Tehnologii</h2>
 
-    <ul>
-        {% for tehnologie in tehnologii %}
-            <li>{{ tehnologie }}</li>
-        {% endfor %}
-    </ul>
+<ul>
+    {% for tehnologie in tehnologii %}
+    <li>{{ tehnologie }}</li>
+    {% endfor %}
+</ul>
 
-</body>
-
-</html>
+{% endblock %}

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ro">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>
+        {% block titlu %}
+        Site-ul meu Flask
+        {% endblock %}
+    </title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+<nav>
+    <a href="/">Acasa</a>
+    <a href="/despre">Despre</a>
+    <a href="/proiecte">Proiecte</a>
+</nav>
+
+    <hr>
+
+    <main>
+        {% block continut %}
+        {% endblock %}
+    </main>
+
+</body>
+
+</html>

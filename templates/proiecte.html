@@ -1,21 +1,17 @@
-<!DOCTYPE html>
-<html lang="ro">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Proiecte</title>
-</head>
+{% block titlu %}
+Proiecte
+{% endblock %}
 
-<body>
+{% block continut %}
 
-    <h1>Proiectele mele</h1>
+<h1>Proiectele mele</h1>
 
-    <ul>
-        {% for proiect in proiecte %}
-            <li>{{ proiect }}</li>
-        {% endfor %}
-    </ul>
+<ul>
+    {% for proiect in proiecte %}
+    <li>{{ proiect }}</li>
+    {% endfor %}
+</ul>
 
-</body>
-
-</html>
+{% endblock %}
