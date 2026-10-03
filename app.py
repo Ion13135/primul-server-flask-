@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
 
+mesaje = []
 
 @app.route("/")
 def acasa():
@@ -48,7 +49,6 @@ def proiecte():
         proiecte=lista_proiecte
     )
 
-
 @app.route("/contact", methods=["GET", "POST"])
 def contact():
 
@@ -56,23 +56,52 @@ def contact():
 
         nume = request.form.get("nume")
         email = request.form.get("email")
-        mesaj = request.form.get("mesaj")
+        mesaj_text = request.form.get("mesaj")
+
+        mesaj_nou = {
+            "nume": nume,
+            "email": email,
+            "mesaj": mesaj_text
+        }
+
+        mesaje.append(mesaj_nou)
 
         print(
-            f"Mesaj primit de la {nume} ({email}): {mesaj}"
+            f"Mesaj nou primit de la {nume} ({email}): {mesaj_text}"
         )
 
-        return render_template(
-            "contact_succes.html",
-            nume=nume
+        return redirect(
+            url_for("contact_success", nume=nume)
+
         )
 
     return render_template("contact.html")
 
 
+@app.route("/contact-success")
+def contact_success():
+
+    nume = request.args.get("nume")
+
+    return render_template(
+        "contact_success.html",
+        nume=nume
+    )
+    
+@app.route("/mesaje")
+def afiseaza_mesaje():
+
+    return render_template(
+        "mesaje.html",
+        mesaje=mesaje
+    )
+
+
 @app.route("/salut/<nume>")
 def salut(nume):
     return f"Salut, {nume}! Ma bucur sa te vad aici."
+
+
 
 
 if __name__ == "__main__":

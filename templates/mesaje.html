@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block titlu %}
+Mesaje primite
+{% endblock %}
+
+{% block continut %}
+
+<h1>Mesaje primite</h1>
+
+{% if mesaje %}
+
+<ul>
+
+    {% for mesaj in mesaje %}
+
+    <li>
+        <strong>{{ mesaj.nume }}</strong>
+        ({{ mesaj.email }})
+        :
+        {{ mesaj.mesaj }}
+    </li>
+
+    {% endfor %}
+
+</ul>
+
+{% else %}
+
+<p>Niciun mesaj primit inca.</p>
+
+{% endif %}
+
+{% endblock %}
