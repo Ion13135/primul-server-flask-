@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -123,6 +123,126 @@ def afiseaza_mesaje():
         mesaje=toate_mesajele
     )
 
+@app.route("/api/mesaje")
+def api_toate_mesajele():
+
+    toate = Mesaj.query.all()
+
+    rezultat = []
+
+    for mesaj in toate:
+
+        rezultat.append({
+            "id": mesaj.id,
+            "nume": mesaj.nume,
+            "email": mesaj.email,
+            "continut": mesaj.continut
+        })
+
+        return jsonify(rezultat)
+
+
+@app.route("/api/mesaje", methods=["POST"])
+def api_creeaza_mesaj():
+
+    date = request.get_json()
+
+    if (
+        not date
+        or not date.get("nume")
+        or not date.get("email")
+        or not date.get("continut")
+    ):
+        return jsonify({
+            "eroare": "Lipsesc campuri obligatorii"
+        }), 400
+
+    mesaj_nou = Mesaj(
+        nume=date["nume"],
+        email=date["email"],
+        continut=date["continut"]
+    )
+
+    db.session.add(mesaj_nou)
+    db.session.commit()
+
+    return jsonify({
+        "id": mesaj_nou.id,
+        "nume": mesaj_nou.nume,
+        "email": mesaj_nou.email,
+        "continut": mesaj_nou.continut
+    }), 201
+
+
+
+@app.route("/api/mesaje/<int:id>")
+def api_un_mesaj(id):
+
+    mesaj = Mesaj.query.get(id)
+
+    if mesaj is None:
+
+        return jsonify({
+            "eroare": "Mesajul nu a fost gasit"
+        }), 404
+
+    return jsonify({
+        "id": mesaj.id,
+        "nume": mesaj.nume,
+        "email": mesaj.email,
+        "continut": mesaj.continut
+    })
+
+
+@app.route("/api/mesaje/<int:id>", methods=["PUT"])
+def api_actualizeaza_mesaj(id):
+
+    mesaj = Mesaj.query.get(id)
+
+    if mesaj is None:
+
+        return jsonify({
+            "eroare": "Mesajul nu a fost gasit"
+        }), 404
+
+    date = request.get_json()
+
+    if "nume" in date:
+        mesaj.nume = date["nume"]
+
+    if "email" in date:
+        mesaj.email = date["email"]
+
+    if "continut" in date:
+        mesaj.continut = date["continut"]
+
+    db.session.commit()
+
+    return jsonify({
+        "id": mesaj.id,
+        "nume": mesaj.nume,
+        "email": mesaj.email,
+        "continut": mesaj.continut
+    })
+
+@app.route("/api/mesaje/<int:id>", methods=["DELETE"])
+def api_sterge_mesaj(id):
+
+    mesaj = Mesaj.query.get(id)
+
+    if mesaj is None:
+
+        return jsonify({
+            "eroare": "Mesajul nu a fost gasit"
+        }), 404
+
+    db.session.delete(mesaj)
+    db.session.commit()
+
+    return jsonify({
+        "mesaj": f"Mesajul cu id-ul {id} a fost sters."
+    })
+
 
 @app.route("/salut/<nume>")
 def salut(nume):
@@ -132,7 +252,6 @@ with app.app_context():
     db.create_all()
 
 
-
-
 if __name__ == "__main__":
     app.run(debug=True)
+
