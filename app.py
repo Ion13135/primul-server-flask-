@@ -1,12 +1,16 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 
 app = Flask(__name__)
+
+# Permite accesul doar pentru rutele /api/* provenite de la frontend-ul tau Vite
+CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}})
+
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///mesaje.db"
 
 db = SQLAlchemy(app)
-
 
 
 class Mesaj(db.Model):
@@ -136,10 +140,11 @@ def api_toate_mesajele():
             "id": mesaj.id,
             "nume": mesaj.nume,
             "email": mesaj.email,
-            "continut": mesaj.continut
+            "continut":mesaj.continut
+ 
         })
 
-        return jsonify(rezultat)
+    return jsonify(rezultat)
 
 
 @app.route("/api/mesaje", methods=["POST"])
